@@ -37,8 +37,10 @@ const QuestionCard = ({
     setAddingQuestion(false);
   };
 
+  console.log(question);
+
   return (
-    <div key={question._id} className="question-card">
+    <div className="question-card">
       {editing ? (
         <form onSubmit={handleEditSubmit}>
           <input

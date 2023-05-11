@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import QuestionCard from "../QuestionCard/QuestionCard";
 
 const QuizCard = ({
@@ -14,6 +14,10 @@ const QuizCard = ({
   const [newTitle, setNewTitle] = useState(quiz.title);
   const [addingQuestion, setAddingQuestion] = useState(false);
   const [newQuestionText, setNewQuestionText] = useState("");
+
+  useEffect(() => {
+    setNewTitle(quiz.title);
+  }, [quiz]);
 
   const handleTitleChange = (e) => {
     setNewTitle(e.target.value);
@@ -37,7 +41,7 @@ const QuizCard = ({
   };
 
   return (
-    <div key={quiz._id} className="quiz-card">
+    <div className="quiz-card">
       <div className="quiz-header">
         {editing ? (
           <form onSubmit={handleEditSubmit}>
@@ -66,16 +70,12 @@ const QuizCard = ({
       <div className="question-list">
         {quiz.questions.map((question) => (
           <QuestionCard
-            key={question._id}
+            key={question._id} // Add the key prop here
             quiz={quiz}
             question={question}
-            handleAddAnswer={() => handleAddAnswer(quiz._id, question._id)}
-            handleUpdateQuestion={() =>
-              handleUpdateQuestion(quiz._id, question._id)
-            }
-            handleDeleteQuestion={() =>
-              handleDeleteQuestion(quiz._id, question._id)
-            }
+            handleAddAnswer={handleAddAnswer}
+            handleUpdateQuestion={handleUpdateQuestion}
+            handleDeleteQuestion={handleDeleteQuestion}
           />
         ))}
       </div>

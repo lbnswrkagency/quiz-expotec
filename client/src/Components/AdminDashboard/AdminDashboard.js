@@ -15,6 +15,7 @@ const AdminDashboard = () => {
   useEffect(() => {
     const loadQuizzes = async () => {
       const allQuizzes = await fetchAllQuizzes();
+
       setQuizzes(allQuizzes);
     };
 
@@ -66,8 +67,19 @@ const AdminDashboard = () => {
   };
 
   // Function to handle updating a quiz
-  const handleUpdateQuiz = (quizId, newTitle) => {
-    // TODO: Implement the logic for updating a quiz
+  const handleUpdateQuiz = async (quizId, newTitle) => {
+    try {
+      const response = await axios.put(
+        `http://localhost:5000/api/quiz/${quizId}`,
+        { title: newTitle }
+      );
+      const updatedQuiz = response.data;
+      setQuizzes((prevQuizzes) =>
+        prevQuizzes.map((quiz) => (quiz._id === quizId ? updatedQuiz : quiz))
+      );
+    } catch (error) {
+      console.error("Error updating quiz:", error);
+    }
   };
 
   // Function to handle deleting a quiz
@@ -97,6 +109,17 @@ const AdminDashboard = () => {
 
       const newQuestion = response.data;
       const updatedQuiz = quizzes.find((quiz) => quiz._id === quizId);
+
+      // Check if the question is already present in the questions array
+      if (
+        updatedQuiz.questions.some(
+          (question) => question._id === newQuestion._id
+        )
+      ) {
+        console.log("Question already exists.");
+        return;
+      }
+
       updatedQuiz.questions.push(newQuestion);
       setQuizzes(
         quizzes.map((quiz) => (quiz._id === quizId ? updatedQuiz : quiz))
@@ -107,13 +130,41 @@ const AdminDashboard = () => {
   };
 
   // Function to handle updating a question
-  const handleUpdateQuestion = (quizId, questionId, newText) => {
-    // TODO: Implement the logic for updating a question
+  const handleUpdateQuestion = async (quizId, questionId, newText) => {
+    try {
+      const response = await axios.put(
+        `http://localhost:5000/api/question/${questionId}`,
+        { text: newText }
+      );
+      const updatedQuestion = response.data;
+      const updatedQuiz = quizzes.find((quiz) => quiz._id === quizId);
+
+      updatedQuiz.questions = updatedQuiz.questions.map((question) =>
+        question._id === questionId ? updatedQuestion : question
+      );
+      setQuizzes(
+        quizzes.map((quiz) => (quiz._id === quizId ? updatedQuiz : quiz))
+      );
+    } catch (error) {
+      console.error("Error updating question:", error);
+    }
   };
 
   // Function to handle deleting a question
-  const handleDeleteQuestion = (quizId, questionId) => {
-    // TODO: Implement the logic for deleting a question
+  const handleDeleteQuestion = async (quizId, questionId) => {
+    try {
+      await axios.delete(`http://localhost:5000/api/question/${questionId}`);
+      const updatedQuiz = quizzes.find((quiz) => quiz._id === quizId);
+
+      updatedQuiz.questions = updatedQuiz.questions.filter(
+        (question) => question._id !== questionId
+      );
+      setQuizzes(
+        quizzes.map((quiz) => (quiz._id === quizId ? updatedQuiz : quiz))
+      );
+    } catch (error) {
+      console.error("Error deleting question:", error);
+    }
   };
 
   // Function to handle adding an answer
@@ -152,6 +203,8 @@ const AdminDashboard = () => {
     // TODO: Implement the logic for deleting an answer
   };
 
+  console.log(quizzes);
+
   return (
     <div className="admin-dashboard">
       <div className="admin-dashboard-header">
@@ -175,6 +228,7 @@ const AdminDashboard = () => {
       <div className="quiz-list">
         {quizzes.map((quiz) => (
           <QuizCard
+            quizzes={quizzes}
             key={quiz._id}
             quiz={quiz}
             handleUpdateQuiz={handleUpdateQuiz}
@@ -183,29 +237,7 @@ const AdminDashboard = () => {
             handleAddAnswer={handleAddAnswer}
             handleUpdateQuestion={handleUpdateQuestion}
             handleDeleteQuestion={handleDeleteQuestion}
-          >
-            {quiz?.questions?.map((question) => (
-              <QuestionCard
-                key={question._id}
-                question={question}
-                quizId={quiz._id}
-                handleAddAnswer={handleAddAnswer}
-                handleUpdateQuestion={handleUpdateQuestion}
-                handleDeleteQuestion={handleDeleteQuestion}
-              >
-                {question?.answers?.map((answer) => (
-                  <AnswerCard
-                    key={answer._id}
-                    answer={answer}
-                    quizId={quiz._id}
-                    questionId={question._id}
-                    handleUpdateAnswer={handleUpdateAnswer}
-                    handleDeleteAnswer={handleDeleteAnswer}
-                  />
-                ))}
-              </QuestionCard>
-            ))}
-          </QuizCard>
+          />
         ))}
       </div>
       {showDeleteConfirmation && (

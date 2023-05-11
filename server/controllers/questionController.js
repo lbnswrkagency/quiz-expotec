@@ -63,12 +63,23 @@ exports.updateQuestion = async (req, res) => {
 
 exports.deleteQuestion = async (req, res) => {
   try {
+    const question = await Question.findById(req.params.questionId).populate(
+      "answers"
+    );
+
+    if (!question) {
+      return res.status(404).json({ message: "Question not found" });
+    }
+
+    // Delete associated answers
+    for (const answer of question.answers) {
+      await Answer.findByIdAndDelete(answer._id);
+    }
+
+    // Delete the question
     const deletedQuestion = await Question.findByIdAndDelete(
       req.params.questionId
     );
-    if (!deletedQuestion) {
-      return res.status(404).json({ message: "Question not found" });
-    }
     res.status(200).json({ message: "Question deleted successfully" });
   } catch (error) {
     res.status(500).json({ message: error.message });
