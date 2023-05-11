@@ -4,11 +4,19 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 
+// Import the route files
+const quizRoutes = require("./routes/quizRoutes");
+const questionRoutes = require("./routes/questionRoutes");
+const answerRoutes = require("./routes/answerRoutes");
+
 dotenv.config();
 
 const app = express();
+
 app.use(cors());
+
 app.use(bodyParser.json());
+
 app.use(bodyParser.urlencoded({ extended: true }));
 
 mongoose
@@ -18,6 +26,11 @@ mongoose
   })
   .then(() => console.log("MongoDB connected"))
   .catch((err) => console.log(err));
+
+// Use the routes
+app.use("/api/quiz", quizRoutes);
+app.use("/api/question", questionRoutes);
+app.use("/api/answer", answerRoutes);
 
 app.get("/", (req, res) => {
   res.send("Quiz backend is up and running");
