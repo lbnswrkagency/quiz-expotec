@@ -1,0 +1,41 @@
+.quiz-data {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f7f9fa;
+
+  h1 {
+    font-size: 2em;
+    text-align: center;
+    color: #3f51b5;
+    margin-bottom: 1em;
+  }
+
+  .card {
+    margin: 0.5% 0.25%;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+    height: 300px;
+
+    .MuiCardContent-root {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+
+      .MuiTypography-root {
+        margin-bottom: 0.5em;
+      }
+    }
+  }
+
+  .chart-card {
+    height: auto; // adjust chart card height
+  }
+}

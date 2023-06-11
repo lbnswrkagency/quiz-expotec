@@ -1,0 +1,239 @@
+* {
+  box-sizing: border-box;
+
+  font-family: "Poppins", sans-serif;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+}
+
+$breakpoints: (
+  x-small: 576px,
+  small: 768px,
+  medium: 992px,
+  large: 1500px,
+  extra-large: 2000px,
+);
+
+@mixin mq($key) {
+  $size: map-get($breakpoints, $key);
+  @media (min-width: $size) {
+    @content;
+  }
+}
+
+@mixin grid($key) {
+  display: grid;
+  grid-template-columns: repeat($key, minmax(min-content, max-content));
+}
+
+@mixin grid-row($key) {
+  display: grid;
+  grid-template-rows: repeat($key, minmax(min-content, max-content));
+}
+@mixin grid-auto($type: "columns") {
+  display: grid;
+  grid-gap: 1rem; /* Optional, to add space between the child elements */
+
+  @if $type == "columns" {
+    grid-template-columns: repeat(auto-fill, minmax(min-content, max-content));
+  } @else if $type == "rows" {
+    grid-template-rows: repeat(auto-fill, minmax(min-content, max-content));
+  }
+}
+
+// QuizGame.scss
+
+.correct {
+  color: #20a000;
+}
+
+.incorrect {
+  color: #e90000;
+}
+
+.quiz {
+  height: 100vh;
+  width: 100vw;
+
+  &-container {
+    display: grid;
+    grid-template-rows: repeat(3, 1fr);
+    height: 100%;
+    width: 100%;
+  }
+
+  &-header {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    padding-left: 4rem;
+    padding-right: 4rem;
+    align-items: center;
+    background-color: #fff;
+    width: 60%;
+    height: 10rem;
+    justify-self: center;
+    align-self: center;
+
+    img {
+      width: 10rem;
+    }
+
+    &-global-logo {
+      justify-self: start;
+    }
+
+    &-local-logo {
+      justify-self: end;
+    }
+  }
+
+  &-question {
+    box-shadow: 5px 5px 7px rgba(0, 0, 0, 0.25);
+    border-radius: 25px;
+    height: 7.5rem;
+    width: 50%;
+    justify-self: center;
+    text-align: center;
+    display: grid;
+    align-self: center;
+    align-items: center;
+    font-size: 1.25rem;
+    position: relative;
+
+    font-style: italic;
+    font-weight: 400;
+
+    &-text {
+      z-index: 2;
+    }
+  }
+
+  &-triangle {
+    position: absolute;
+    width: 66.75px; // 133.5px / 2
+    height: 119.81px; // 239.62px / 2
+    background: #fff; // Your color here
+    clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+    box-shadow: 5px 5px 7px rgba(0, 0, 0, 0.25);
+    transform: rotate(-37.07deg);
+    top: -5rem;
+    right: 25%;
+  }
+
+  &-answer-title {
+    font-size: 4rem;
+    font-style: italic;
+    font-weight: 500;
+  }
+
+  &-answer-sub {
+    font-style: italic;
+    font-weight: 500;
+    font-size: 2rem;
+    margin-top: 2rem;
+  }
+
+  &-answers {
+    @include grid(2);
+    @include grid-row(2);
+    justify-self: center;
+
+    grid-gap: 1rem;
+
+    &-button {
+      height: 4rem;
+      width: 20rem;
+      border-radius: 15px;
+      border: none;
+      font-style: italic;
+      font-weight: 500;
+      padding-left: 1rem;
+      font-size: 1.25rem;
+      display: grid;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    &-text {
+      text-align: start;
+      span {
+        display: inline-block;
+        width: 30px;
+        height: 30px;
+        font-weight: 800;
+        line-height: 25px; // Vertically centers text in the circle
+        border: 2px solid #000; // Change color as needed
+        border-radius: 50%; // Creates a circle
+        text-align: center; // Horizontally centers text in the circle
+        margin-right: 5px; // Add space between circle and the answer text
+      }
+    }
+  }
+
+  &-submit {
+    @include grid-row(3);
+    justify-content: center;
+    text-align: center;
+    justify-items: center;
+  }
+
+  &-answers-button-2 {
+    margin-top: 1rem;
+  }
+
+  &-next {
+    width: 250px;
+    height: 90px;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    font-style: italic;
+    font-weight: 500;
+    font-size: 2rem;
+    background: #004c84;
+    border-radius: 81px 0px 0px 0px;
+  }
+
+  &-done {
+    align-self: center;
+    text-align: center;
+
+    &-title {
+      font-style: italic;
+      font-weight: 500;
+      font-size: 4rem;
+    }
+
+    &-result {
+      font-style: italic;
+      font-weight: 400;
+      font-size: 2rem;
+      margin-top: 1rem;
+    }
+  }
+
+  &-done-sub {
+    text-align: center;
+    justify-self: center;
+
+    &-text {
+      line-height: 30px;
+      font-style: italic;
+      font-weight: 400;
+      font-size: 1.5rem;
+      width: 50ch;
+    }
+
+    &-link {
+      font-style: italic;
+      font-weight: 600;
+      border: none;
+      margin-top: 1rem;
+    }
+  }
+}

@@ -1,5 +1,6 @@
 const Quiz = require("../models/quizModel");
 const Question = require("../models/questionModel");
+const Answer = require("../models/answerModel");
 
 exports.getAllQuestions = async (req, res) => {
   // You'll need to specify how you want to fetch all questions.
@@ -62,6 +63,7 @@ exports.updateQuestion = async (req, res) => {
 };
 
 exports.deleteQuestion = async (req, res) => {
+  console.log(req.params);
   try {
     const question = await Question.findById(req.params.questionId).populate(
       "answers"

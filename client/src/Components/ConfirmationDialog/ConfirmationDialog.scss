@@ -1,0 +1,54 @@
+.confirmation-dialog {
+  position: fixed;
+  z-index: 10;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.5); // Black background with opacity
+
+  .confirmation-dialog-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    border-radius: 10px;
+
+    p {
+      font-size: 18px;
+      margin-bottom: 15px;
+    }
+
+    .confirmation-dialog-actions {
+      display: flex;
+      justify-content: flex-end;
+
+      button {
+        background-color: #4caf50;
+        color: white;
+        padding: 14px 20px;
+        margin: 8px 2px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition-duration: 0.4s;
+
+        &:hover {
+          background-color: white;
+          color: black;
+        }
+
+        &:nth-child(2) {
+          background-color: #f44336;
+
+          &:hover {
+            background-color: white;
+            color: black;
+          }
+        }
+      }
+    }
+  }
+}

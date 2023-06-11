@@ -8,6 +8,9 @@ const dotenv = require("dotenv");
 const quizRoutes = require("./routes/quizRoutes");
 const questionRoutes = require("./routes/questionRoutes");
 const answerRoutes = require("./routes/answerRoutes");
+const dataRoutes = require("./routes/dataRoutes");
+const logoRoutes = require("./routes/logoRoutes");
+const colorRoutes = require("./routes/colorRoutes");
 
 dotenv.config();
 
@@ -31,12 +34,15 @@ mongoose
 app.use("/api/quiz", quizRoutes);
 app.use("/api/question", questionRoutes);
 app.use("/api/answer", answerRoutes);
+app.use("/api/data", dataRoutes);
+app.use("/api/logo", logoRoutes);
+app.use("/api/color", colorRoutes);
 
 app.get("/", (req, res) => {
   res.send("Quiz backend is up and running");
 });
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5001;
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

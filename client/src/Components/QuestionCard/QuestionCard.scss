@@ -1,0 +1,120 @@
+* {
+  box-sizing: border-box;
+
+  font-family: "Poppins", sans-serif;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+}
+
+$breakpoints: (
+  x-small: 576px,
+  small: 768px,
+  medium: 992px,
+  large: 1500px,
+  extra-large: 2000px,
+);
+
+@mixin mq($key) {
+  $size: map-get($breakpoints, $key);
+  @media (min-width: $size) {
+    @content;
+  }
+}
+
+@mixin grid($key) {
+  display: grid;
+  grid-template-columns: repeat($key, minmax(min-content, max-content));
+}
+
+@mixin grid-row($key) {
+  display: grid;
+  grid-template-rows: repeat($key, minmax(min-content, max-content));
+}
+@mixin grid-auto($type: "columns") {
+  display: grid;
+  grid-gap: 1rem; /* Optional, to add space between the child elements */
+
+  @if $type == "columns" {
+    grid-template-columns: repeat(auto-fill, minmax(min-content, max-content));
+  } @else if $type == "rows" {
+    grid-template-rows: repeat(auto-fill, minmax(min-content, max-content));
+  }
+}
+
+.question-card {
+  border: 2px solid black;
+  padding: 2rem;
+  margin-top: 1rem;
+
+  &-title {
+    margin-bottom: 1rem;
+  }
+
+  &-actions {
+    margin-bottom: 1rem;
+  }
+
+  &-add-answer {
+    margin-top: 1rem;
+  }
+}
+
+.confirmation-dialog {
+  position: fixed;
+  z-index: 10;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.5); // Black background with opacity
+
+  .confirmation-dialog-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    border-radius: 10px;
+
+    p {
+      font-size: 18px;
+      margin-bottom: 15px;
+    }
+
+    .confirmation-dialog-actions {
+      display: flex;
+      justify-content: flex-end;
+
+      button {
+        background-color: #4caf50;
+        color: white;
+        padding: 14px 20px;
+        margin: 8px 2px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition-duration: 0.4s;
+
+        &:hover {
+          background-color: white;
+          color: black;
+        }
+
+        &:nth-child(2) {
+          background-color: #f44336;
+
+          &:hover {
+            background-color: white;
+            color: black;
+          }
+        }
+      }
+    }
+  }
+}

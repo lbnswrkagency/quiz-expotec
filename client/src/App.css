@@ -1,5 +1,4 @@
 .App {
-  text-align: center;
 }
 
 .App-logo {
@@ -35,4 +34,37 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.general-button {
+  height: 2rem;
+  width: 10rem;
+  background-color: #ffffff;
+  border-color: #d9d9d9;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.02);
+  border: 1px solid grey;
+  border-radius: 6px;
+  margin-right: 1rem;
+}
+
+.general-button-page {
+  height: 2rem;
+  width: 3rem;
+  background-color: #ffffff;
+  border-color: #d9d9d9;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.02);
+  border: 1px solid grey;
+  border-radius: 6px;
+  margin-right: 1rem;
+}
+
+.general-input {
+  height: 2rem;
+  width: 15rem;
+  background-color: #ffffff;
+  border-color: #d9d9d9;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.02);
+  border: 1px solid grey;
+  border-radius: 6px;
+  margin-right: 1rem;
 }
