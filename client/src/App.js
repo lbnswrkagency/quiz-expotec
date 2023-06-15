@@ -11,6 +11,7 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<HelloWorld />} />
+          <Route path="/hello" element={<HelloWorld />} />
           <Route path="/admin-dashboard" element={<AdminDashboard />} />
           <Route path="/quiz/:uniqueLink" element={<QuizGame />} />
           {/* Add more routes as needed */}
