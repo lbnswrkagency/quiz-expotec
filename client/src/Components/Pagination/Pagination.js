@@ -96,7 +96,6 @@ const Pagination = ({ setRefetch, refetch }) => {
     setCurrentPage(pageNumber);
   };
 
-  console.log(colorSchemes);
   return (
     <div className="pagination">
       <div className="pagination-navigation">

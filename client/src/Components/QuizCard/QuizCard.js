@@ -36,7 +36,6 @@ const QuizCard = ({
     fetchQuizData();
   }, [quiz._id]);
   async function fetchQuizData() {
-    console.log("FETCH QUIZ DATA");
     try {
       const response = await fetch(
         `https://quiz-mxtc.onrender.com/api/data/${quiz._id}`
@@ -244,7 +243,7 @@ const QuizCard = ({
               Das Quiz ist nun spielbar unter folgendem Link:
             </p>
             <a
-              href={`http://localhost:3000/quiz/${quiz.uniqueLink}`}
+              href={`https://quiz-client.onrender.com//quiz/${quiz.uniqueLink}`}
               target="_blank"
               rel="noopener noreferrer"
               style={{
@@ -253,7 +252,7 @@ const QuizCard = ({
                   : "defaultColor",
               }}
             >
-              http://localhost:3000/quiz/{quiz.uniqueLink}
+              https://quiz-client.onrender.com//quiz/{quiz.uniqueLink}
             </a>
           </div>
         ) : (
