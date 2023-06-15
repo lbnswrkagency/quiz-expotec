@@ -155,9 +155,6 @@ const QuizGame = () => {
     }
   };
 
-  console.log("global logo", globalLogo);
-  console.log("local logo", localLogo);
-
   return (
     <div
       className="quiz"

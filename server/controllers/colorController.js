@@ -4,8 +4,6 @@ const chroma = require("chroma-js");
 exports.setColor = async (req, res) => {
   const { leadingColor, quizId } = req.body;
 
-  console.log(req.body);
-
   try {
     // Delete existing color scheme for this quiz, if one exists
     const existingColorScheme = await Color.findOne({ quizId });

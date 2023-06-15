@@ -63,7 +63,6 @@ exports.updateQuestion = async (req, res) => {
 };
 
 exports.deleteQuestion = async (req, res) => {
-  console.log(req.params);
   try {
     const question = await Question.findById(req.params.questionId).populate(
       "answers"

@@ -146,9 +146,6 @@ const QuizCard = ({
 
   // Function to handle deleting a question
   const handleDeleteQuestion = async (quizId, questionId) => {
-    console.log("Question ID", questionId);
-    console.log("Quiz ID", quizId);
-
     try {
       await axios.delete(
         `https://quiz-mxtc.onrender.com/api/question/${questionId}`
@@ -186,8 +183,6 @@ const QuizCard = ({
 
     return true;
   };
-
-  console.log("Quiz Data", quizData);
 
   return (
     <div className="quiz-card">
@@ -243,7 +238,7 @@ const QuizCard = ({
               Das Quiz ist nun spielbar unter folgendem Link:
             </p>
             <a
-              href={`https://quiz-client.onrender.com//quiz/${quiz.uniqueLink}`}
+              href={`https://quiz-client.onrender.com/quiz/${quiz.uniqueLink}`}
               target="_blank"
               rel="noopener noreferrer"
               style={{
@@ -252,7 +247,7 @@ const QuizCard = ({
                   : "defaultColor",
               }}
             >
-              https://quiz-client.onrender.com//quiz/{quiz.uniqueLink}
+              https://quiz-client.onrender.com/quiz/{quiz.uniqueLink}
             </a>
           </div>
         ) : (

@@ -11,6 +11,7 @@ const answerRoutes = require("./routes/answerRoutes");
 const dataRoutes = require("./routes/dataRoutes");
 const logoRoutes = require("./routes/logoRoutes");
 const colorRoutes = require("./routes/colorRoutes");
+const loginRoutes = require("./routes/loginRoutes");
 
 dotenv.config();
 
@@ -37,6 +38,7 @@ app.use("/api/answer", answerRoutes);
 app.use("/api/data", dataRoutes);
 app.use("/api/logo", logoRoutes);
 app.use("/api/color", colorRoutes);
+app.use("/api/login", loginRoutes);
 
 app.get("/", (req, res) => {
   res.send("Quiz backend is up and running");

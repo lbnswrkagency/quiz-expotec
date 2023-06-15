@@ -2,7 +2,6 @@ const Question = require("../models/questionModel");
 const Answer = require("../models/answerModel");
 
 exports.getAllAnswers = async (req, res) => {
-  console.log("object");
   try {
     const question = await Question.findById(req.query.questionId).populate(
       "answers"
@@ -30,8 +29,6 @@ exports.getAnswerById = async (req, res) => {
 
 exports.createAnswer = async (req, res) => {
   const answer = new Answer(req.body);
-
-  console.log(req.body)
 
   try {
     const savedAnswer = await answer.save();
@@ -68,7 +65,6 @@ exports.updateAnswer = async (req, res) => {
   }
 };
 
-
 exports.deleteAnswer = async (req, res) => {
   try {
     const deletedAnswer = await Answer.findByIdAndDelete(req.params.answerId);
@@ -89,7 +85,9 @@ exports.updateCorrectness = async (req, res) => {
     }
 
     // find the parent question
-    const parentQuestion = await Question.findOne({ answers: req.params.answerId });
+    const parentQuestion = await Question.findOne({
+      answers: req.params.answerId,
+    });
     if (!parentQuestion) {
       return res.status(404).json({ message: "Parent question not found" });
     }
@@ -112,4 +110,3 @@ exports.updateCorrectness = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
-
