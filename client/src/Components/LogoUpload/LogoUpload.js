@@ -32,12 +32,15 @@ const LogoUpload = ({ global, quizId, setRefetch, refetch, text }) => {
   const sendBase64ToServer = async (base64String, mimeType) => {
     setIsLoading(true);
     try {
-      const response = await axios.post("http://localhost:5001/api/logo", {
-        base64String,
-        mimeType,
-        quizId,
-        global,
-      });
+      const response = await axios.post(
+        "https://quiz-mxtc.onrender.com/api/logo",
+        {
+          base64String,
+          mimeType,
+          quizId,
+          global,
+        }
+      );
 
       if (response.status === 200) {
         setAlertOpen(true);

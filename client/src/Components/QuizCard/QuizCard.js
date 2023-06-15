@@ -39,7 +39,7 @@ const QuizCard = ({
     console.log("FETCH QUIZ DATA");
     try {
       const response = await fetch(
-        `http://localhost:5001/api/data/${quiz._id}`
+        `https://quiz-mxtc.onrender.com/api/data/${quiz._id}`
       );
       const data = await response.json();
       setQuizData(data);
@@ -51,7 +51,7 @@ const QuizCard = ({
   const fetchLogo = async (quizId) => {
     try {
       const response = await axios.get(
-        `http://localhost:5001/api/logo/${quizId}`
+        `https://quiz-mxtc.onrender.com/api/logo/${quizId}`
       );
       if (response.status === 200 && !response.data.global) {
         setLogoData(response.data);
@@ -95,7 +95,7 @@ const QuizCard = ({
   const handleAddQuestion = async (quizId, newQuestionText) => {
     try {
       const response = await axios.post(
-        "http://localhost:5001/api/question/create",
+        "https://quiz-mxtc.onrender.com/api/question/create",
         {
           quizId,
           text: newQuestionText,
@@ -128,7 +128,7 @@ const QuizCard = ({
   const handleUpdateQuestion = async (quizId, questionId, newText) => {
     try {
       const response = await axios.put(
-        `http://localhost:5001/api/question/${questionId}`,
+        `https://quiz-mxtc.onrender.com/api/question/${questionId}`,
         { text: newText }
       );
       const updatedQuestion = response.data;
@@ -151,7 +151,9 @@ const QuizCard = ({
     console.log("Quiz ID", quizId);
 
     try {
-      await axios.delete(`http://localhost:5001/api/question/${questionId}`);
+      await axios.delete(
+        `https://quiz-mxtc.onrender.com/api/question/${questionId}`
+      );
       const updatedQuiz = quizzes.find((quiz) => quiz._id === quizId);
 
       updatedQuiz.questions = updatedQuiz.questions.filter(

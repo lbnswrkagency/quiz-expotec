@@ -1,5 +1,9 @@
 const express = require("express");
-const { updateQuizData, getQuizData, incrementParticipants } = require("../controllers/dataController");
+const {
+  updateQuizData,
+  getQuizData,
+  incrementParticipants,
+} = require("../controllers/dataController");
 
 const router = express.Router();
 

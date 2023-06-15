@@ -9,10 +9,13 @@ function ColorPicker({ quizId, setRefetch, refetch }) {
     setColor(color.hex);
 
     try {
-      const response = await axios.post("http://localhost:5001/api/color", {
-        leadingColor: color.hex,
-        quizId,
-      });
+      const response = await axios.post(
+        "https://quiz-mxtc.onrender.com/api/color",
+        {
+          leadingColor: color.hex,
+          quizId,
+        }
+      );
 
       // Here you could do something with the response, like show a success message
       console.log("Color set successfully:", response.data);

@@ -27,7 +27,9 @@ const Pagination = ({ setRefetch, refetch }) => {
 
   const fetchAllColorSchemes = async () => {
     try {
-      const response = await axios.get("http://localhost:5001/api/color");
+      const response = await axios.get(
+        "https://quiz-mxtc.onrender.com/api/color"
+      );
       return response.data;
     } catch (error) {
       console.error("Error fetching color schemes:", error);
@@ -36,7 +38,9 @@ const Pagination = ({ setRefetch, refetch }) => {
   };
   const fetchAllQuizzes = async () => {
     try {
-      const response = await axios.get("http://localhost:5001/api/quiz/all");
+      const response = await axios.get(
+        "https://quiz-mxtc.onrender.com/api/quiz/all"
+      );
       return response.data;
     } catch (error) {
       console.error("Error fetching quizzes:", error);
@@ -47,7 +51,7 @@ const Pagination = ({ setRefetch, refetch }) => {
   const handleUpdateQuiz = async (quizId, newTitle) => {
     try {
       const response = await axios.put(
-        `http://localhost:5001/api/quiz/${quizId}`,
+        `https://quiz-mxtc.onrender.com/api/quiz/${quizId}`,
         { title: newTitle }
       );
       const updatedQuiz = response.data;
@@ -69,7 +73,7 @@ const Pagination = ({ setRefetch, refetch }) => {
   // Function to handle deleting a quiz
   const handleDeleteQuiz = async (quizId) => {
     try {
-      await axios.delete(`http://localhost:5001/api/quiz/${quizId}`);
+      await axios.delete(`https://quiz-mxtc.onrender.com/api/quiz/${quizId}`);
       setQuizzes((prevQuizzes) =>
         prevQuizzes.filter((quiz) => quiz._id !== quizId)
       );

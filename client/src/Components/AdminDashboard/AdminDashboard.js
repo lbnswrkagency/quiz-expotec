@@ -18,7 +18,9 @@ const AdminDashboard = () => {
 
   const fetchGlobalLogo = async () => {
     try {
-      const response = await axios.get("http://localhost:5001/api/logo");
+      const response = await axios.get(
+        "https://quiz-mxtc.onrender.com/api/logo"
+      );
       setLogoData(response.data.base64String);
     } catch (error) {
       console.error("Error fetching global logo:", error);
@@ -32,7 +34,7 @@ const AdminDashboard = () => {
   const createQuiz = async (title) => {
     try {
       const response = await axios.post(
-        "http://localhost:5001/api/quiz/create",
+        "https://quiz-mxtc.onrender.com/api/quiz/create",
         {
           title,
         }

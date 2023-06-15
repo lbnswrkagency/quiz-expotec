@@ -24,22 +24,15 @@ const QuizGame = () => {
     const fetchQuiz = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5001/api/quiz/link/${uniqueLink}`
+          `https://quiz-mxtc.onrender.com/api/quiz/link/${uniqueLink}`
         );
         setQuiz(response.data);
         setQuizIsLive(isQuizLive(response.data)); // Check if the quiz is live
-        analytics.incrementParticipants(response.data._id);
 
         const colorResponse = await axios.get(
-          `http://localhost:5001/api/color/${response.data._id}`
+          `https://quiz-mxtc.onrender.com/api/color/${response.data._id}`
         );
         setColorScheme(colorResponse.data);
-
-        // const globalLogoResponse = await axios.get(`http://localhost:5001/api/logo`);
-        // setGlobalLogo(globalLogoResponse.data);
-
-        // const localLogoResponse = await axios.get(`http://localhost:5001/api/logo/${response.data._id}`);
-        // setLocalLogo(localLogoResponse.data || globalLogoResponse.data);
       } catch (error) {
         console.error("Error fetching quiz data:", error);
       }
@@ -52,7 +45,9 @@ const QuizGame = () => {
   useEffect(() => {
     const fetchGlobalLogo = async () => {
       try {
-        const response = await axios.get(`http://localhost:5001/api/logo`);
+        const response = await axios.get(
+          `https://quiz-mxtc.onrender.com/api/logo`
+        );
         if (response.status === 200) {
           setGlobalLogo(response.data);
         }
@@ -66,7 +61,7 @@ const QuizGame = () => {
         // Only fetch local logo if quiz is not null
         try {
           const response = await axios.get(
-            `http://localhost:5001/api/logo/${quiz._id}`
+            `https://quiz-mxtc.onrender.com/api/logo/${quiz._id}`
           );
           if (response.status === 200) {
             setLocalLogo(response.data);
