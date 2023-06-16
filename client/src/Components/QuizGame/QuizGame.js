@@ -248,7 +248,14 @@ const QuizGame = () => {
                   >
                     <p className="quiz-answers-text">
                       {" "}
-                      <span>{getCorrectAnswer(currentQuestion).label} </span>
+                      <span
+                        style={{
+                          color: colorScheme?.answerTextColor,
+                          border: `2px solid ${colorScheme?.answerTextColor}`,
+                        }}
+                      >
+                        {getCorrectAnswer(currentQuestion).label}{" "}
+                      </span>
                       {getCorrectAnswer(currentQuestion).answer.text}
                     </p>
                   </p>
