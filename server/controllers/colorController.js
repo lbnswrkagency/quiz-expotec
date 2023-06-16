@@ -12,16 +12,22 @@ exports.setColor = async (req, res) => {
     }
 
     // Generate colors
-    const colors = chroma.scale([leadingColor, "black"]).colors(3);
+    const darkerColor = chroma(leadingColor).darken(1.5).hex();
+    const colors = chroma.scale([leadingColor, darkerColor]).colors(3);
     const gradientBackground = `linear-gradient(${colors[0]}, ${colors[1]}, ${colors[2]})`;
-    const questionBackgroundColor = chroma(leadingColor).darken().hex();
-    const questionTextColor =
-      chroma.contrast(questionBackgroundColor, "white") > 4.5
-        ? "white"
-        : "black";
+
+    // Calculate complementary color
+    const complementaryColor = chroma(leadingColor).rgb();
+    const hue = (chroma(complementaryColor).get("hcl.h") + 180) % 360;
+    const questionBackgroundColor = chroma
+      .lch(
+        chroma(complementaryColor).get("hcl.l"),
+        chroma(complementaryColor).get("hcl.c"),
+        hue
+      )
+      .hex();
+
     const answerBackgroundColor = chroma(leadingColor).brighten().hex();
-    const answerTextColor =
-      chroma.contrast(answerBackgroundColor, "white") > 4.5 ? "white" : "black";
 
     // Generate colors for next button and answer border
     const nextButtonBackgroundColor = chroma(leadingColor).brighten(2).hex();
@@ -30,6 +36,10 @@ exports.setColor = async (req, res) => {
         ? "white"
         : "black";
     const answerBorderColor = chroma(leadingColor).darken(2).hex();
+
+    // For questionTextColor and answerTextColor, we use questionBackgroundColor
+    const questionTextColor = questionBackgroundColor;
+    const answerTextColor = questionBackgroundColor;
 
     // Create new color scheme
     const color = new Color({

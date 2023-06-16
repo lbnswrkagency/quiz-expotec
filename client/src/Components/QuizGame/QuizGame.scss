@@ -68,19 +68,22 @@ $breakpoints: (
   }
 
   &-header {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     padding-left: 4rem;
     padding-right: 4rem;
-    align-items: center;
     background-color: #fff;
     width: 60%;
     height: 10rem;
     justify-self: center;
     align-self: center;
-
     img {
-      width: 10rem;
+      max-width: 100%;
+      max-height: 80%;
+      height: auto;
+      width: auto;
+      object-fit: contain; // maintains aspect ratio
     }
 
     &-global-logo {
@@ -109,6 +112,7 @@ $breakpoints: (
     font-weight: 400;
 
     &-text {
+      color: #fff;
       z-index: 2;
     }
   }
@@ -146,32 +150,38 @@ $breakpoints: (
     grid-gap: 1rem;
 
     &-button {
-      height: 4rem;
+      min-height: 4rem;
       width: 20rem;
       border-radius: 15px;
       border: none;
       font-style: italic;
       font-weight: 500;
-      padding-left: 1rem;
+      padding-top: 1rem;
+      padding-bottom: 0.5rem;
+      padding-right: 0.5rem;
       font-size: 1.25rem;
       display: grid;
       align-items: center;
       cursor: pointer;
-    }
+      background: rgba(217, 217, 217, 0.8);
 
-    &-text {
-      text-align: start;
+      @include grid(2);
+
       span {
         display: inline-block;
         width: 30px;
         height: 30px;
         font-weight: 800;
         line-height: 25px; // Vertically centers text in the circle
-        border: 2px solid #000; // Change color as needed
+
         border-radius: 50%; // Creates a circle
         text-align: center; // Horizontally centers text in the circle
         margin-right: 5px; // Add space between circle and the answer text
       }
+    }
+
+    &-text {
+      text-align: start;
     }
   }
 
@@ -234,6 +244,10 @@ $breakpoints: (
       font-weight: 600;
       border: none;
       margin-top: 1rem;
+
+      a {
+        color: lightblue;
+      }
     }
   }
 }

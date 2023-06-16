@@ -271,7 +271,6 @@ const QuizGame = () => {
                   className="quiz-question"
                   style={{
                     backgroundColor: colorScheme?.questionBackgroundColor,
-                    color: colorScheme?.questionTextColor,
                   }}
                 >
                   <span
@@ -290,14 +289,20 @@ const QuizGame = () => {
                       key={index}
                       onClick={() => handleAnswerSelect(answer)}
                       style={{
-                        backgroundColor: colorScheme?.answerBackgroundColor,
                         color: colorScheme?.answerTextColor,
                         border: `1px solid ${colorScheme?.answerBorderColor}`,
                       }}
                     >
-                      <p className="quiz-answers-text">
-                        <span>{answerLabels[index]}</span> {answer.text}
-                      </p>
+                      <span
+                        style={{
+                          color: colorScheme?.answerTextColor,
+                          border: `2px solid ${colorScheme?.answerTextColor}`,
+                        }}
+                      >
+                        {answerLabels[index]}
+                      </span>
+
+                      <p className="quiz-answers-text">{answer.text}</p>
                     </button>
                   ))}
                 </div>
