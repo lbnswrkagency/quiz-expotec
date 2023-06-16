@@ -53,7 +53,7 @@ const QuestionCard = ({
   const handleAddAnswer = async (quizId, questionId, newText) => {
     try {
       const response = await axios.post(
-        `https://quiz-mxtc.onrender.com/api/answer/create`,
+        `${process.env.REACT_APP_API_BASE_URL}/answer/create`,
         {
           text: newText,
           isCorrect: false, // isCorrect is false by default
@@ -78,7 +78,7 @@ const QuestionCard = ({
   const handleUpdateAnswer = async (quizId, questionId, answerId, newText) => {
     try {
       const response = await axios.put(
-        `https://quiz-mxtc.onrender.com/api/answer/${answerId}`,
+        `${process.env.REACT_APP_API_BASE_URL}/answer/${answerId}`,
         { text: newText }
       );
 
@@ -101,7 +101,7 @@ const QuestionCard = ({
   const handleUpdateCorrectness = async (quizId, questionId, answerId) => {
     try {
       const response = await axios.put(
-        `https://quiz-mxtc.onrender.com/api/answer/${answerId}/correct`
+        `${process.env.REACT_APP_API_BASE_URL}/answer/${answerId}/correct`
       );
 
       const updatedCorrectAnswer = response.data;
@@ -129,7 +129,7 @@ const QuestionCard = ({
   const handleDeleteAnswer = async (quizId, questionId, answerId) => {
     try {
       await axios.delete(
-        `https://quiz-mxtc.onrender.com/api/answer/${answerId}`
+        `${process.env.REACT_APP_API_BASE_URL}/answer/${answerId}`
       );
       const updatedQuiz = quizzes.find((quiz) => quiz._id === quizId);
       const updatedQuestion = updatedQuiz.questions.find(

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const ANALYTICS_API = "https://quiz-mxtc.onrender.com/api/data";
+const ANALYTICS_API = `${process.env.REACT_APP_API_BASE_URL}/data`;
 
 const analytics = {
   totalQuestions: 0,

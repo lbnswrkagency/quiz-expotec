@@ -28,7 +28,7 @@ const Pagination = ({ setRefetch, refetch }) => {
   const fetchAllColorSchemes = async () => {
     try {
       const response = await axios.get(
-        "https://quiz-mxtc.onrender.com/api/color"
+        `${process.env.REACT_APP_API_BASE_URL}/color`
       );
       return response.data;
     } catch (error) {
@@ -39,7 +39,7 @@ const Pagination = ({ setRefetch, refetch }) => {
   const fetchAllQuizzes = async () => {
     try {
       const response = await axios.get(
-        "https://quiz-mxtc.onrender.com/api/quiz/all"
+        `${process.env.REACT_APP_API_BASE_URL}/quiz/all`
       );
       return response.data;
     } catch (error) {
@@ -51,7 +51,7 @@ const Pagination = ({ setRefetch, refetch }) => {
   const handleUpdateQuiz = async (quizId, newTitle) => {
     try {
       const response = await axios.put(
-        `https://quiz-mxtc.onrender.com/api/quiz/${quizId}`,
+        `${process.env.REACT_APP_API_BASE_URL}/quiz/${quizId}`,
         { title: newTitle }
       );
       const updatedQuiz = response.data;
@@ -73,7 +73,9 @@ const Pagination = ({ setRefetch, refetch }) => {
   // Function to handle deleting a quiz
   const handleDeleteQuiz = async (quizId) => {
     try {
-      await axios.delete(`https://quiz-mxtc.onrender.com/api/quiz/${quizId}`);
+      await axios.delete(
+        `${process.env.REACT_APP_API_BASE_URL}/quiz/${quizId}`
+      );
       setQuizzes((prevQuizzes) =>
         prevQuizzes.filter((quiz) => quiz._id !== quizId)
       );

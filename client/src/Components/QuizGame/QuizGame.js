@@ -24,13 +24,13 @@ const QuizGame = () => {
     const fetchQuiz = async () => {
       try {
         const response = await axios.get(
-          `https://quiz-mxtc.onrender.com/api/quiz/link/${uniqueLink}`
+          `${process.env.REACT_APP_API_BASE_URL}/quiz/link/${uniqueLink}`
         );
         setQuiz(response.data);
         setQuizIsLive(isQuizLive(response.data)); // Check if the quiz is live
 
         const colorResponse = await axios.get(
-          `https://quiz-mxtc.onrender.com/api/color/${response.data._id}`
+          `${process.env.REACT_APP_API_BASE_URL}/color/${response.data._id}`
         );
         setColorScheme(colorResponse.data);
       } catch (error) {
@@ -46,7 +46,7 @@ const QuizGame = () => {
     const fetchGlobalLogo = async () => {
       try {
         const response = await axios.get(
-          `https://quiz-mxtc.onrender.com/api/logo`
+          `${process.env.REACT_APP_API_BASE_URL}/logo`
         );
         if (response.status === 200) {
           setGlobalLogo(response.data);
@@ -61,7 +61,7 @@ const QuizGame = () => {
         // Only fetch local logo if quiz is not null
         try {
           const response = await axios.get(
-            `https://quiz-mxtc.onrender.com/api/logo/${quiz._id}`
+            `${process.env.REACT_APP_API_BASE_URL}/logo/${quiz._id}`
           );
           if (response.status === 200) {
             setLocalLogo(response.data);

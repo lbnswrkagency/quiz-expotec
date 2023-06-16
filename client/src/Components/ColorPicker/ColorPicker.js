@@ -10,7 +10,7 @@ function ColorPicker({ quizId, setRefetch, refetch }) {
 
     try {
       const response = await axios.post(
-        "https://quiz-mxtc.onrender.com/api/color",
+        `${process.env.REACT_APP_API_BASE_URL}/color`,
         {
           leadingColor: color.hex,
           quizId,

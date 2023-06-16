@@ -19,7 +19,7 @@ const AdminDashboard = () => {
   const fetchGlobalLogo = async () => {
     try {
       const response = await axios.get(
-        "https://quiz-mxtc.onrender.com/api/logo"
+        `${process.env.REACT_APP_API_BASE_URL}/logo`
       );
       setLogoData(response.data.base64String);
     } catch (error) {
@@ -34,7 +34,7 @@ const AdminDashboard = () => {
   const createQuiz = async (title) => {
     try {
       const response = await axios.post(
-        "https://quiz-mxtc.onrender.com/api/quiz/create",
+        `{process.env.REACT_APP_API_BASE_URL}/quiz/create`,
         {
           title,
         }

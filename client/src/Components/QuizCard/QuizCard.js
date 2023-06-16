@@ -38,7 +38,7 @@ const QuizCard = ({
   async function fetchQuizData() {
     try {
       const response = await fetch(
-        `https://quiz-mxtc.onrender.com/api/data/${quiz._id}`
+        `${process.env.REACT_APP_API_BASE_URL}/data/${quiz._id}`
       );
       const data = await response.json();
       setQuizData(data);
@@ -50,7 +50,7 @@ const QuizCard = ({
   const fetchLogo = async (quizId) => {
     try {
       const response = await axios.get(
-        `https://quiz-mxtc.onrender.com/api/logo/${quizId}`
+        `${process.env.REACT_APP_API_BASE_URL}/logo/${quizId}`
       );
       if (response.status === 200 && !response.data.global) {
         setLogoData(response.data);
@@ -94,7 +94,7 @@ const QuizCard = ({
   const handleAddQuestion = async (quizId, newQuestionText) => {
     try {
       const response = await axios.post(
-        "https://quiz-mxtc.onrender.com/api/question/create",
+        `${process.env.REACT_APP_API_BASE_URL}/question/create`,
         {
           quizId,
           text: newQuestionText,
@@ -127,7 +127,7 @@ const QuizCard = ({
   const handleUpdateQuestion = async (quizId, questionId, newText) => {
     try {
       const response = await axios.put(
-        `https://quiz-mxtc.onrender.com/api/question/${questionId}`,
+        `${process.env.REACT_APP_API_BASE_URL}/question/${questionId}`,
         { text: newText }
       );
       const updatedQuestion = response.data;
@@ -148,7 +148,7 @@ const QuizCard = ({
   const handleDeleteQuestion = async (quizId, questionId) => {
     try {
       await axios.delete(
-        `https://quiz-mxtc.onrender.com/api/question/${questionId}`
+        `${process.env.REACT_APP_API_BASE_URL}/question/${questionId}`
       );
       const updatedQuiz = quizzes.find((quiz) => quiz._id === quizId);
 
@@ -238,7 +238,7 @@ const QuizCard = ({
               Das Quiz ist nun spielbar unter folgendem Link:
             </p>
             <a
-              href={`https://quiz-client.onrender.com/quiz/${quiz.uniqueLink}`}
+              href={`${process.env.REACT_APP_CLIENT_BASE_URL}/quiz/${quiz.uniqueLink}`}
               target="_blank"
               rel="noopener noreferrer"
               style={{
@@ -247,7 +247,7 @@ const QuizCard = ({
                   : "defaultColor",
               }}
             >
-              https://quiz-client.onrender.com/quiz/{quiz.uniqueLink}
+              {process.env.REACT_APP_CLIENT_BASE_URL}/quiz/{quiz.uniqueLink}
             </a>
           </div>
         ) : (

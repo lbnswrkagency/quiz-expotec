@@ -33,7 +33,7 @@ const LogoUpload = ({ global, quizId, setRefetch, refetch, text }) => {
     setIsLoading(true);
     try {
       const response = await axios.post(
-        "https://quiz-mxtc.onrender.com/api/logo",
+        `${process.env.REACT_APP_API_BASE_URL}/logo`,
         {
           base64String,
           mimeType,

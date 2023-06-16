@@ -13,7 +13,7 @@ function Login({ onAuthenticated }) {
 
     try {
       const response = await axios.post(
-        "https://quiz-mxtc.onrender.com/api/login",
+        `${process.env.REACT_APP_API_BASE_URL}/login`,
         {
           username,
           password,
