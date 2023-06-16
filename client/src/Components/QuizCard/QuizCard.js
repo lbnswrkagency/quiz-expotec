@@ -221,44 +221,19 @@ const QuizCard = ({
           />
         </div>
         {isQuizLive(quiz) ? (
-          <div
-            className="quiz-card-live"
-            style={{
-              color: colorSchema ? colorSchema.answerTextColor : "defaultColor",
-            }}
-          >
-            <p
-              style={{
-                color: colorSchema
-                  ? colorSchema.answerTextColor
-                  : "defaultColor",
-              }}
-            >
-              {" "}
-              Das Quiz ist nun spielbar unter folgendem Link:
-            </p>
+          <div className="quiz-card-live">
+            <p> Das Quiz ist nun spielbar unter folgendem Link:</p>
             <a
               href={`${process.env.REACT_APP_CLIENT_BASE_URL}/quiz/${quiz.uniqueLink}`}
               target="_blank"
               rel="noopener noreferrer"
-              style={{
-                color: colorSchema
-                  ? colorSchema.answerTextColor
-                  : "defaultColor",
-              }}
             >
               {process.env.REACT_APP_CLIENT_BASE_URL}/quiz/{quiz.uniqueLink}
             </a>
           </div>
         ) : (
           <div className="quiz-card-live">
-            <p
-              style={{
-                color: colorSchema
-                  ? colorSchema.answerTextColor
-                  : "defaultColor",
-              }}
-            >
+            <p>
               Es wird mindestens eine Frage benötigt und pro Frage mindestens
               eine richtige Antwort, damit das Quiz spielbar ist.
             </p>
@@ -285,16 +260,7 @@ const QuizCard = ({
           </form>
         ) : (
           <>
-            <h2
-              className="quiz-card-title"
-              style={{
-                color: colorSchema
-                  ? colorSchema.answerTextColor
-                  : "defaultColor",
-              }}
-            >
-              {quiz.title}
-            </h2>
+            <h2 className="quiz-card-title">{quiz.title}</h2>
             <button
               className="quiz-card-data general-button"
               onClick={() => setShowDataModal(true)}
