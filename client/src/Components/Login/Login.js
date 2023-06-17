@@ -6,10 +6,13 @@ import "./Login.scss";
 function Login({ onAuthenticated }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false); // Add a new state for loading
   const navigate = useNavigate(); // create an instance of navigate
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+
+    setIsLoading(true); // Set loading to true when the form is submitted
 
     try {
       const response = await axios.post(
@@ -26,6 +29,8 @@ function Login({ onAuthenticated }) {
       navigate("/admin-dashboard"); // navigate to the admin dashboard
     } catch (error) {
       console.error("Error during login:", error);
+    } finally {
+      setIsLoading(false); // Set loading to false after the request is completed
     }
   };
 
@@ -45,7 +50,9 @@ function Login({ onAuthenticated }) {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <button type="submit">Submit</button>
+        <button type="submit" disabled={isLoading}>
+          {isLoading ? "Loading..." : "Submit"}
+        </button>
       </form>
     </div>
   );
