@@ -242,7 +242,6 @@ const QuizGame = () => {
                   <p
                     className="quiz-answers-button quiz-answers-button-2"
                     style={{
-                      backgroundColor: colorScheme?.answerBackgroundColor,
                       color: colorScheme?.answerTextColor,
                     }}
                   >
