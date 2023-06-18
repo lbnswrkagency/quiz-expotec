@@ -136,7 +136,7 @@ const Pagination = ({ setRefetch, refetch }) => {
       {showDeleteConfirmation && (
         <div className="confirmation-dialog">
           <div className="confirmation-dialog-content">
-            <p>Bist du dir sicher das du das Quiz löschen willst?</p>
+            <p>Bist du dir sicher, dass du das Quiz löschen willst?</p>
             <div className="confirmation-dialog-actions">
               <button onClick={() => handleDeleteQuiz(deleteCandidate)}>
                 Ja
