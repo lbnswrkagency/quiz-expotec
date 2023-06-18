@@ -19,13 +19,20 @@ exports.setColor = async (req, res) => {
     // Calculate complementary color
     const complementaryColor = chroma(leadingColor).rgb();
     const hue = (chroma(complementaryColor).get("hcl.h") + 180) % 360;
-    const questionBackgroundColor = chroma
+    let questionBackgroundColor = chroma
       .lch(
         chroma(complementaryColor).get("hcl.l"),
         chroma(complementaryColor).get("hcl.c"),
         hue
       )
       .hex();
+
+    // If the leading color is very dark, brighten the question background color
+    if (chroma(leadingColor).luminance() < 0.3) {
+      questionBackgroundColor = chroma(questionBackgroundColor)
+        .brighten(1.5)
+        .hex();
+    }
 
     const answerBackgroundColor = chroma(leadingColor).brighten().hex();
 
@@ -38,8 +45,21 @@ exports.setColor = async (req, res) => {
     const answerBorderColor = chroma(leadingColor).darken(2).hex();
 
     // For questionTextColor and answerTextColor, we use questionBackgroundColor
-    const questionTextColor = questionBackgroundColor;
-    const answerTextColor = questionBackgroundColor;
+    // If the questionBackgroundColor is a bright color (luminance > 0.5), make the answerTextColor a darker shade of questionBackgroundColor
+    let questionTextColor, answerTextColor;
+    if (chroma(questionBackgroundColor).luminance() > 0.5) {
+      questionTextColor = "black";
+      answerTextColor = chroma(questionBackgroundColor).darken(1.5).hex();
+
+      // If the leading color is very bright, set the answer text color to black
+      console.log("Brightness", chroma(leadingColor).luminance());
+      if (chroma(leadingColor).luminance() > 0.5) {
+        answerTextColor = "black";
+      }
+    } else {
+      questionTextColor = "white";
+      answerTextColor = questionBackgroundColor;
+    }
 
     // Create new color scheme
     const color = new Color({

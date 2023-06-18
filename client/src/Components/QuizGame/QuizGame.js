@@ -155,6 +155,8 @@ const QuizGame = () => {
     }
   };
 
+  console.log(colorScheme);
+
   return (
     <div
       className="quiz"
@@ -277,6 +279,7 @@ const QuizGame = () => {
                   className="quiz-question"
                   style={{
                     backgroundColor: colorScheme?.questionBackgroundColor,
+                    color: colorScheme?.questionTextColor,
                   }}
                 >
                   <span

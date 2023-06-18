@@ -112,7 +112,6 @@ $breakpoints: (
     font-weight: 400;
 
     &-text {
-      color: #fff;
       z-index: 2;
     }
   }
@@ -164,6 +163,7 @@ $breakpoints: (
       align-items: center;
       cursor: pointer;
       background: rgba(217, 217, 217, 0.8);
+      word-break: break-word;
 
       @include grid(2);
 
