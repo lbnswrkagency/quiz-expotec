@@ -84,5 +84,10 @@ $breakpoints: (
       @include grid-row(2);
       grid-gap: 1rem;
     }
+
+    &-handbuch {
+      grid-row: 2/3;
+      grid-column: 3/4;
+    }
   }
 }

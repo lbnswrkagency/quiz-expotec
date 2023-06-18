@@ -4,6 +4,7 @@ import axios from "axios";
 import QuizCard from "../QuizCard/QuizCard";
 import LogoUpload from "../LogoUpload/LogoUpload";
 import Pagination from "../Pagination/Pagination";
+import Handbuch from "../Handbuch/Handbuch";
 
 const AdminDashboard = () => {
   const [quizzes, setQuizzes] = useState([]);
@@ -11,10 +12,19 @@ const AdminDashboard = () => {
   const [quizTitle, setQuizTitle] = useState("");
   const [logoData, setLogoData] = useState(null);
   const [refetch, setRefetch] = useState(false);
+  const [showHandbuch, setShowHandbuch] = useState(false);
 
   useEffect(() => {
     fetchGlobalLogo();
   }, [refetch]);
+
+  const handleHandbuchOpen = () => {
+    setShowHandbuch(true);
+  };
+
+  const handleHandbuchClose = () => {
+    setShowHandbuch(false);
+  };
 
   const fetchGlobalLogo = async () => {
     try {
@@ -61,6 +71,18 @@ const AdminDashboard = () => {
   return (
     <div className="admin-dashboard">
       <div className="admin-dashboard-header">
+        <button
+          className="admin-dashboard-header-handbuch general-button"
+          onClick={handleHandbuchOpen}
+        >
+          Handbuch
+        </button>
+        {showHandbuch && (
+          <div className="handbuch-modal">
+            <button onClick={handleHandbuchClose}>Schließen</button>
+            <Handbuch handleHandbuchClose={handleHandbuchClose} />
+          </div>
+        )}
         <div className="admin-dashboard-header-upload">
           {" "}
           <LogoUpload

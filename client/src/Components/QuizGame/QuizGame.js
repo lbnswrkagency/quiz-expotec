@@ -155,8 +155,6 @@ const QuizGame = () => {
     }
   };
 
-  console.log(colorScheme);
-
   return (
     <div
       className="quiz"
@@ -215,7 +213,14 @@ const QuizGame = () => {
                 </a>
               </h3>
             </div>
-            <button className="quiz-next" onClick={handleRestartQuiz}>
+            <button
+              className="quiz-next"
+              onClick={handleRestartQuiz}
+              style={{
+                backgroundColor: colorScheme?.questionBackgroundColor,
+                color: colorScheme?.questionTextColor,
+              }}
+            >
               Quiz Neu starten
             </button>
           </>
@@ -266,8 +271,8 @@ const QuizGame = () => {
                   className="quiz-next"
                   onClick={handleNextQuestion}
                   style={{
-                    backgroundColor: colorScheme?.nextButtonBackgroundColor,
-                    color: colorScheme?.nextButtonTextColor,
+                    backgroundColor: colorScheme?.questionBackgroundColor,
+                    color: colorScheme?.questionTextColor,
                   }}
                 >
                   Weiter
