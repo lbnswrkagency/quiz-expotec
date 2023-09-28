@@ -150,7 +150,7 @@ $breakpoints: (
 
     &-button {
       min-height: 4rem;
-      width: 20rem;
+      width: 23rem;
       border-radius: 15px;
       border: none;
       font-style: italic;
@@ -164,8 +164,8 @@ $breakpoints: (
       cursor: pointer;
       background: rgba(217, 217, 217, 0.8);
       word-break: break-word;
-
-      @include grid(2);
+      display: grid;
+      justify-items: center;
 
       span {
         display: inline-block;
@@ -182,6 +182,7 @@ $breakpoints: (
 
     &-text {
       text-align: start;
+      width: 97%;
     }
   }
 

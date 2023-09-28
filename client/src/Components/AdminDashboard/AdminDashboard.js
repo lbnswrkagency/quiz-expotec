@@ -11,6 +11,7 @@ const AdminDashboard = () => {
   const [selectedQuiz, setSelectedQuiz] = useState(null);
   const [quizTitle, setQuizTitle] = useState("");
   const [logoData, setLogoData] = useState(null);
+  const [logoDataId, setLogoDataId] = useState(null);
   const [refetch, setRefetch] = useState(false);
   const [showHandbuch, setShowHandbuch] = useState(false);
 
@@ -31,9 +32,23 @@ const AdminDashboard = () => {
       const response = await axios.get(
         `${process.env.REACT_APP_API_BASE_URL}/logo`
       );
-      setLogoData(response.data.base64String);
+      if (response.status === 200) {
+        // If the logo exists
+        setLogoData(response.data.base64String);
+        setLogoDataId(response.data._id);
+      } else {
+        // If no logo found, reset the state
+        setLogoData(null);
+        setLogoDataId(null);
+      }
     } catch (error) {
-      console.error("Error fetching global logo:", error);
+      if (error.response && error.response.status === 404) {
+        // If no logo found, reset the state
+        setLogoData(null);
+        setLogoDataId(null);
+      } else {
+        console.error("Error fetching global logo:", error);
+      }
     }
   };
 
@@ -68,6 +83,17 @@ const AdminDashboard = () => {
     }
   };
 
+  const deleteLogo = async (logoId) => {
+    try {
+      await axios.delete(
+        `${process.env.REACT_APP_API_BASE_URL}/logo/${logoDataId}`
+      );
+      fetchGlobalLogo(); // Refresh after deletion
+    } catch (error) {
+      console.error("Error deleting logo:", error);
+    }
+  };
+
   return (
     <div className="admin-dashboard">
       <div className="admin-dashboard-header">
@@ -95,11 +121,19 @@ const AdminDashboard = () => {
         </div>
 
         {logoData ? (
-          <img
-            className="admin-dashboard-header-logo"
-            src={logoData}
-            alt="Logo"
-          />
+          <Fragment>
+            <img
+              className="admin-dashboard-header-logo"
+              src={logoData}
+              alt="Logo"
+            />
+            <button
+              className="admin-dashboard-header-delete-button general-button"
+              onClick={() => deleteLogo(logoData._id)}
+            >
+              Logo löschen
+            </button>
+          </Fragment>
         ) : (
           <p className="admin-dashboard-header-logo">Haupt Logo hochladen</p>
         )}

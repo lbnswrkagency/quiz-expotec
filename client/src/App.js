@@ -28,6 +28,10 @@ function App() {
     <div className="App">
       <Router>
         <Routes>
+          {/* Separate out the QuizGame route to make it publicly accessible */}
+          <Route path="/quiz/:uniqueLink" element={<QuizGame />} />
+
+          {/* Keep the authentication check for admin related routes */}
           <Route
             path="/"
             element={
@@ -43,7 +47,6 @@ function App() {
               element={<Login onAuthenticated={handleAuthentication} />}
             />
             <Route path="/admin-dashboard" element={<AdminDashboard />} />
-            <Route path="/quiz/:uniqueLink" element={<QuizGame />} />
           </Route>
         </Routes>
       </Router>

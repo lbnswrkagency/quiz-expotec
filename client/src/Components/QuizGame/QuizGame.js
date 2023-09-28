@@ -189,7 +189,9 @@ const QuizGame = () => {
         {isQuizOver ? (
           <>
             <div className="quiz-done">
-              <h1 className="quiz-done-title">Herzlichen Glückwunsch!</h1>
+              {correctAnswersCount >= 3 && ( // Add this condition
+                <h1 className="quiz-done-title">Herzlichen Glückwunsch!</h1>
+              )}
               <h2 className="quiz-done-result">
                 Sie haben{" "}
                 <b>
@@ -254,14 +256,14 @@ const QuizGame = () => {
                   >
                     <p className="quiz-answers-text">
                       {" "}
-                      <span
+                      {/* <span
                         style={{
                           color: colorScheme?.answerTextColor,
                           border: `2px solid ${colorScheme?.answerTextColor}`,
                         }}
                       >
                         {getCorrectAnswer(currentQuestion).label}{" "}
-                      </span>
+                      </span> */}
                       {getCorrectAnswer(currentQuestion).answer.text}
                     </p>
                   </p>
@@ -307,14 +309,14 @@ const QuizGame = () => {
                         border: `1px solid ${colorScheme?.answerBorderColor}`,
                       }}
                     >
-                      <span
+                      {/* <span
                         style={{
                           color: colorScheme?.answerTextColor,
                           border: `2px solid ${colorScheme?.answerTextColor}`,
                         }}
                       >
                         {answerLabels[index]}
-                      </span>
+                      </span> */}
 
                       <p className="quiz-answers-text">{answer.text}</p>
                     </button>

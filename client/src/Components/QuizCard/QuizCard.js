@@ -184,6 +184,18 @@ const QuizCard = ({
     return true;
   };
 
+  const deleteLogo = async () => {
+    try {
+      await axios.delete(
+        `${process.env.REACT_APP_API_BASE_URL}/logo/${logoData._id}`
+      );
+      setLogoData(null); // Remove the logo data from state after deletion
+      setRefetch(!refetch); // Trigger a refetch if necessary
+    } catch (error) {
+      console.error("Error deleting the logo:", error);
+    }
+  };
+
   return (
     <div className="quiz-card">
       <div
@@ -211,7 +223,16 @@ const QuizCard = ({
             setRefetch={setRefetch}
             refetch={refetch}
           />
-        </div>{" "}
+          {logoData && (
+            <button
+              className="quiz-card-delete general-button"
+              onClick={deleteLogo}
+            >
+              Logo löschen
+            </button>
+          )}
+        </div>
+
         <div className="quiz-card-picker">
           {" "}
           <ColorPicker
