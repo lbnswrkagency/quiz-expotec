@@ -223,7 +223,7 @@ const QuizGame = () => {
                 color: colorScheme?.questionTextColor,
               }}
             >
-              Quiz Neu starten
+              Quiz neu starten
             </button>
           </>
         ) : (

@@ -85,6 +85,9 @@ $breakpoints: (
     grid-row: 1/2;
     grid-column: 1/2;
     align-self: end;
+
+    @include grid(2);
+    grid-gap: 0.5rem;
   }
 
   &-actions {
