@@ -1,11 +1,10 @@
-staticSites:
-  - name: quiz-expotec
-    buildCommand: npm run build
-    publishDir: build
+services:
+  - type: web
+    name: guest-code-client
+    env: static
+    buildCommand: npm install && npm run build
+    staticPublishPath: ./build
     routes:
       - type: rewrite
-        source: /.*
-        destination: /
-    envVars:
-      - key: NODE_ENV
-        value: production
+        source: /.*/ # Catch-all route
+        destination: /index.html
