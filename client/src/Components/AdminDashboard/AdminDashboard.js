@@ -138,7 +138,7 @@ const AdminDashboard = () => {
           <p className="admin-dashboard-header-logo">Haupt Logo hochladen</p>
         )}
 
-        <h1 className="admin-dashboard-header-title">Admin Dashboard</h1>
+        <h1 className="admin-dashboard-header-title">Admin - Dashboard</h1>
         <form
           onSubmit={(e) => {
             e.preventDefault();
