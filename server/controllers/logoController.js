@@ -1,30 +1,34 @@
+// controllers/logoController.js
+
 const Logo = require("../models/logoModel");
+
 exports.uploadLogo = async (req, res) => {
-  const { base64String, mimeType, quizId, global } = req.body;
+  const { base64String, mimeType, quizId, global, type, positionX, positionY } =
+    req.body;
 
   try {
-    // if a logo is being uploaded for a specific quiz, replace the existing one
-    if (quizId) {
-      const existingQuizLogo = await Logo.findOne({ quizId });
-      if (existingQuizLogo) {
-        await Logo.deleteOne({ _id: existingQuizLogo._id });
-      }
+    const logoType = type || (global ? "global" : "quiz");
+
+    // Delete existing logo of the same type
+    const existingLogo = await Logo.findOne({ quizId, type: logoType });
+    if (existingLogo) {
+      await Logo.deleteOne({ _id: existingLogo._id });
     }
 
-    // if a global logo is being uploaded, replace the existing one
-    if (global) {
-      const existingGlobalLogo = await Logo.findOne({ global: true });
-      if (existingGlobalLogo) {
-        await Logo.deleteOne({ _id: existingGlobalLogo._id });
-      }
-    }
-
-    const logo = new Logo({
+    const logoData = {
       base64String,
       mimeType,
       quizId: quizId ? quizId : null,
       global: global ? global : false,
-    });
+      type: logoType,
+    };
+
+    if (type === "kampagnen") {
+      logoData.positionX = positionX || 0;
+      logoData.positionY = positionY || 0;
+    }
+
+    const logo = new Logo(logoData);
 
     const savedLogo = await logo.save();
 
@@ -36,17 +40,18 @@ exports.uploadLogo = async (req, res) => {
 };
 
 exports.getLogo = async (req, res) => {
-  const { quizId } = req.params;
+  const { quizId, type } = req.params;
 
   try {
     let logo;
-    if (quizId) {
-      logo = await Logo.findOne({ quizId });
-      if (!logo) {
-        logo = await Logo.findOne({ global: true });
-      }
-    } else {
+    if (!quizId && !type) {
+      // This is the case for the global logo (main logo)
       logo = await Logo.findOne({ global: true });
+    } else if (quizId) {
+      logo = await Logo.findOne({ quizId, type: type || "quiz" });
+      if (!logo) {
+        logo = await Logo.findOne({ global: true, type: type || "quiz" });
+      }
     }
 
     if (!logo) {
@@ -69,5 +74,27 @@ exports.deleteLogo = async (req, res) => {
   } catch (error) {
     console.error("Error deleting logo:", error);
     res.status(500).json({ message: "Error deleting logo" });
+  }
+};
+
+exports.updateLogoPosition = async (req, res) => {
+  const { logoId } = req.params;
+  const { positionX, positionY } = req.body;
+
+  try {
+    const updatedLogo = await Logo.findByIdAndUpdate(
+      logoId,
+      { positionX, positionY },
+      { new: true }
+    );
+
+    if (!updatedLogo) {
+      return res.status(404).json({ message: "Logo not found" });
+    }
+
+    res.status(200).json(updatedLogo);
+  } catch (error) {
+    console.error("Error updating logo position:", error);
+    res.status(500).json({ message: "Error updating logo position" });
   }
 };

@@ -6,6 +6,7 @@ import axios from "axios";
 import ColorPicker from "../ColorPicker/ColorPicker";
 import Modal from "react-modal";
 import QuizData from "../QuizData/QuizData";
+import BackgroundImageUpload from "../BackgroundImageUpload/BackgroundImageUpload";
 
 Modal.setAppElement("#root");
 
@@ -27,6 +28,7 @@ const QuizCard = ({
   const colorSchema = colorSchemes.find((scheme) => scheme.quizId === quiz._id);
   const [showDataModal, setShowDataModal] = useState(false);
   const [quizData, setQuizData] = useState(null);
+  const [kampagnenLogoData, setKampagnenLogoData] = useState(null);
 
   useEffect(() => {
     fetchLogo(quiz._id);
@@ -35,6 +37,7 @@ const QuizCard = ({
   useEffect(() => {
     fetchQuizData();
   }, [quiz._id]);
+
   async function fetchQuizData() {
     try {
       const response = await fetch(
@@ -47,27 +50,61 @@ const QuizCard = ({
     }
   }
 
-  const fetchLogo = async (quizId) => {
+  const fetchLogo = async (quizId, type) => {
     try {
       const response = await axios.get(
-        `${process.env.REACT_APP_API_BASE_URL}/logo/${quizId}`
+        `${process.env.REACT_APP_API_BASE_URL}/logo/${quizId}/${type}`
       );
       if (response.status === 200 && !response.data.global) {
-        setLogoData(response.data);
+        if (type === "quiz") {
+          setLogoData(response.data);
+        } else if (type === "kampagnen") {
+          setKampagnenLogoData(response.data);
+        }
       }
     } catch (error) {
       if (error.response && error.response.status === 404) {
-        console.log("Logo not found for the quiz:", error);
-        setLogoData(null); // add this line
+        console.log(`Logo of type ${type} not found for the quiz:`, error);
+        if (type === "quiz") {
+          setLogoData(null);
+        } else if (type === "kampagnen") {
+          setKampagnenLogoData(null);
+        }
       } else {
-        console.error("Error fetching the logo from the server:", error);
+        console.error(
+          `Error fetching the ${type} logo from the server:`,
+          error
+        );
       }
     }
   };
 
   useEffect(() => {
-    setNewTitle(quiz.title);
-  }, [quiz]);
+    fetchLogo(quiz._id);
+    fetchKampagnenLogo(quiz._id); // Add this line
+  }, [quiz._id, refetch]);
+
+  // Define the fetchKampagnenLogo function
+  const fetchKampagnenLogo = async (quizId) => {
+    try {
+      const response = await axios.get(
+        `${process.env.REACT_APP_API_BASE_URL}/logo/${quizId}/kampagnen`
+      );
+      if (response.status === 200 && !response.data.global) {
+        setKampagnenLogoData(response.data);
+      }
+    } catch (error) {
+      if (error.response && error.response.status === 404) {
+        console.log("Kampagnen Logo not found for the quiz:", error);
+        setKampagnenLogoData(null);
+      } else {
+        console.error(
+          "Error fetching the Kampagnen logo from the server:",
+          error
+        );
+      }
+    }
+  };
 
   const handleTitleChange = (e) => {
     setNewTitle(e.target.value);
@@ -184,17 +221,7 @@ const QuizCard = ({
     return true;
   };
 
-  const deleteLogo = async () => {
-    try {
-      await axios.delete(
-        `${process.env.REACT_APP_API_BASE_URL}/logo/${logoData._id}`
-      );
-      setLogoData(null); // Remove the logo data from state after deletion
-      setRefetch(!refetch); // Trigger a refetch if necessary
-    } catch (error) {
-      console.error("Error deleting the logo:", error);
-    }
-  };
+  console.log("LOGO DATA", logoData);
 
   return (
     <div className="quiz-card">
@@ -206,31 +233,44 @@ const QuizCard = ({
             : "defaultColor",
         }}
       >
-        {logoData ? (
-          <img
-            className="quiz-card-logo"
-            src={logoData.base64String}
-            alt="Quiz logo"
-          />
-        ) : (
-          <p className="quiz-card-logo">Quiz Logo hochladen</p>
-        )}
-        <div className="quiz-card-upload">
-          <LogoUpload
-            text={logoData ? "Logo ersetzen" : "Logo hochladen"}
-            global={false}
+        <div className="quiz-card-header-backgroundImage">
+          <BackgroundImageUpload
             quizId={quiz._id}
             setRefetch={setRefetch}
             refetch={refetch}
           />
-          {logoData && (
-            <button
-              className="quiz-card-delete general-button"
-              onClick={deleteLogo}
-            >
-              Logo löschen
-            </button>
-          )}
+        </div>
+
+        <div className="quiz-card-upload">
+          {/* Quiz Logo Upload */}
+
+          <h3 className="quiz-card-upload-title">QUIZ LOGO</h3>
+          <LogoUpload
+            text={logoData ? "Quiz Logo ersetzen" : "Quiz Logo hochladen"}
+            global={false}
+            quizId={quiz._id}
+            setRefetch={setRefetch}
+            refetch={refetch}
+            type="quiz"
+          />
+        </div>
+
+        {/* Kampagnen Logo Upload */}
+
+        <div className="quiz-card-upload quiz-card-upload-kampagnen">
+          <h3 className="quiz-card-upload-title">KAMPAGNEN LOGO</h3>
+          <LogoUpload
+            text={
+              kampagnenLogoData
+                ? "Kampagnen Logo ersetzen"
+                : "Kampagnen Logo hochladen"
+            }
+            global={false}
+            quizId={quiz._id}
+            setRefetch={setRefetch}
+            refetch={refetch}
+            type="kampagnen" // Pass the type prop
+          />
         </div>
 
         <div className="quiz-card-picker">
@@ -241,6 +281,7 @@ const QuizCard = ({
             refetch={refetch}
           />
         </div>
+
         {isQuizLive(quiz) ? (
           <div className="quiz-card-live">
             <p> Das Quiz ist nun spielbar unter folgendem Link:</p>
@@ -260,6 +301,7 @@ const QuizCard = ({
             </p>
           </div>
         )}
+
         {editing ? (
           <form className="quiz-card-edit" onSubmit={handleEditSubmit}>
             <input

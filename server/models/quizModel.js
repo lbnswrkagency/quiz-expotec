@@ -22,6 +22,10 @@ const quizSchema = new mongoose.Schema({
       return `${titleSlug}-${uniqueId}`; // Combine the two to get the unique link
     },
   },
+  backgroundImageUrl: {
+    type: String,
+    default: null,
+  },
 });
 
 const Quiz = mongoose.model("Quiz", quizSchema);
