@@ -1,3 +1,5 @@
+// models/logoModel.js
+
 const mongoose = require("mongoose");
 
 const LogoSchema = mongoose.Schema({
@@ -17,6 +19,19 @@ const LogoSchema = mongoose.Schema({
   global: {
     type: Boolean,
     default: false,
+  },
+  type: {
+    type: String,
+    enum: ["global", "quiz", "kampagnen"],
+    default: "quiz",
+  },
+  positionX: {
+    type: Number,
+    default: 0,
+  },
+  positionY: {
+    type: Number,
+    default: 0,
   },
 });
 

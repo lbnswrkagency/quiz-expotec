@@ -20,6 +20,8 @@ const QuizGame = () => {
   const [globalLogo, setGlobalLogo] = useState(null);
   const [localLogo, setLocalLogo] = useState(null);
 
+  const [kampagnenLogoData, setKampagnenLogoData] = useState(null);
+
   useEffect(() => {
     const fetchQuiz = async () => {
       try {
@@ -40,6 +42,25 @@ const QuizGame = () => {
 
     fetchQuiz();
   }, [uniqueLink]);
+
+  useEffect(() => {
+    const fetchKampagnenLogo = async () => {
+      if (quiz) {
+        try {
+          const response = await axios.get(
+            `${process.env.REACT_APP_API_BASE_URL}/logo/${quiz._id}/kampagnen`
+          );
+          if (response.status === 200) {
+            setKampagnenLogoData(response.data);
+          }
+        } catch (error) {
+          console.error("Error fetching Kampagnen Logo:", error);
+        }
+      }
+    };
+
+    fetchKampagnenLogo();
+  }, [quiz]);
 
   // Fetch global and local logos when the component is first mounted and whenever uniqueLink changes
   useEffect(() => {
@@ -159,10 +180,31 @@ const QuizGame = () => {
     <div
       className="quiz"
       style={{
-        backgroundImage: colorScheme?.gradientBackground,
+        backgroundImage: quiz.backgroundImageUrl
+          ? `url(${quiz.backgroundImageUrl})`
+          : colorScheme?.gradientBackground,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
         color: colorScheme?.questionTextColor,
+        position: "relative",
       }}
     >
+      {/* Kampagnen Logo */}
+      {kampagnenLogoData && (
+        <img
+          src={kampagnenLogoData.base64String}
+          alt="Kampagnen Logo"
+          className="kampagnen-logo"
+          style={{
+            position: "absolute",
+            left: `${kampagnenLogoData.positionX}%`,
+            top: `${kampagnenLogoData.positionY}%`,
+            transform: "translate(-50%, -50%)",
+            zIndex: 10,
+          }}
+        />
+      )}
+
       <div className="quiz-container">
         <div className="quiz-header">
           {globalLogo ? (

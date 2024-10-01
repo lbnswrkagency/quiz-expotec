@@ -33,17 +33,14 @@ const AdminDashboard = () => {
         `${process.env.REACT_APP_API_BASE_URL}/logo`
       );
       if (response.status === 200) {
-        // If the logo exists
         setLogoData(response.data.base64String);
         setLogoDataId(response.data._id);
       } else {
-        // If no logo found, reset the state
         setLogoData(null);
         setLogoDataId(null);
       }
     } catch (error) {
       if (error.response && error.response.status === 404) {
-        // If no logo found, reset the state
         setLogoData(null);
         setLogoDataId(null);
       } else {
@@ -114,9 +111,10 @@ const AdminDashboard = () => {
           <LogoUpload
             text={logoData ? "Logo ersetzen" : "Logo hochladen"}
             global={true}
-            onUpload={fetchGlobalLogo}
+            quizId={null} // No quizId for global logo
             setRefetch={setRefetch}
             refetch={refetch}
+            type="global"
           />
         </div>
 
