@@ -4,6 +4,7 @@ const Answer = require("../models/answerModel");
 const Logo = require("../models/logoModel");
 const Data = require("../models/dataModel");
 const Color = require("../models/colorModel");
+const { deleteFileFromS3ByKey } = require("../utils/s3Uploader");
 
 exports.getAllQuizzes = async (req, res) => {
   try {
@@ -106,11 +107,20 @@ exports.deleteQuiz = async (req, res) => {
     // Delete associated Color
     await Color.findOneAndDelete({ quizId: quiz._id });
 
+    // Delete associated background image from S3
+    if (quiz.backgroundImageUrl) {
+      const backgroundImageUrl = quiz.backgroundImageUrl;
+      const url = new URL(backgroundImageUrl);
+      const s3Key = decodeURIComponent(url.pathname.substring(1)); // Remove leading '/'
+      await deleteFileFromS3ByKey(s3Key);
+    }
+
     // Delete the quiz
     const deletedQuiz = await Quiz.findByIdAndDelete(req.params.quizId);
 
     res.status(200).json({ message: "Quiz deleted successfully" });
   } catch (error) {
+    console.error("Error deleting quiz:", error);
     res.status(500).json({ message: error.message });
   }
 };

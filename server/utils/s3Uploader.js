@@ -134,10 +134,27 @@ const deleteFileFromS3 = async (folder, fileName) => {
   }
 };
 
+const deleteFileFromS3ByKey = async (key) => {
+  const params = {
+    Bucket: AWS_S3_BUCKET_NAME,
+    Key: key,
+  };
+
+  try {
+    const command = new DeleteObjectCommand(params);
+    await s3.send(command);
+    console.log(`File deleted from S3: ${key}`);
+  } catch (error) {
+    console.error("Error deleting file from S3:", error);
+    throw error;
+  }
+};
+
 module.exports = {
   uploadToS3,
   deleteExistingAvatar,
   listFilesFromS3,
   generateSignedUrl,
   deleteFileFromS3,
+  deleteFileFromS3ByKey,
 };
