@@ -1,5 +1,6 @@
 // controllers/logoController.js
 
+const mongoose = require("mongoose"); // Add this line
 const Logo = require("../models/logoModel");
 
 exports.uploadLogo = async (req, res) => {
@@ -40,18 +41,36 @@ exports.uploadLogo = async (req, res) => {
 };
 
 exports.getLogo = async (req, res) => {
-  const { quizId, type } = req.params;
+  let { quizId, type } = req.params;
+
+  // Normalize quizId and type
+  if (quizId === "null" || quizId === "undefined") {
+    quizId = null;
+  }
+
+  if (type === "null" || type === "undefined") {
+    type = null;
+  }
 
   try {
     let logo;
+
     if (!quizId && !type) {
       // This is the case for the global logo (main logo)
       logo = await Logo.findOne({ global: true });
-    } else if (quizId) {
+    } else if (quizId && mongoose.Types.ObjectId.isValid(quizId)) {
+      // Query using quizId and type
       logo = await Logo.findOne({ quizId, type: type || "quiz" });
       if (!logo) {
+        // Fallback to global logo of the specified type
         logo = await Logo.findOne({ global: true, type: type || "quiz" });
       }
+    } else if (type) {
+      // If only type is provided, find a logo of that type
+      logo = await Logo.findOne({ type });
+    } else {
+      // Invalid quizId
+      return res.status(400).json({ message: "Invalid quizId" });
     }
 
     if (!logo) {

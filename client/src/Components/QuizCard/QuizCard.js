@@ -221,8 +221,6 @@ const QuizCard = ({
     return true;
   };
 
-  console.log("LOGO DATA", logoData);
-
   return (
     <div className="quiz-card">
       <div
